@@ -1,0 +1,12 @@
+v 3
+d tabstattex. Package to export output of tabstat command in LaTex.
+d Program by {bf:Nicola Tommasi} (nicola.tommasi@gmail.com)
+d
+d Distribution-Date: 20180303
+
+
+* I can also insert comments; these will not be displayed.
+* f lines name the files that comprise your package:
+
+f tabstattex.ado
+f tabstattex.sthlp
