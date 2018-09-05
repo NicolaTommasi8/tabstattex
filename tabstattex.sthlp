@@ -3,7 +3,7 @@
 help for {hi:tabstattex}
 {hline}
 
-{title:Esporta l'output di tabstat in LaTex}
+{title:Esportare l'output di tabstat in LaTex}
 
 {p 8 12 2}
 {cmd:tabstattex} {it:varlist} {ifin} [{cmd:,} {help tabstattex##tabstatopt:{it:tabstat_options}}]  {help tabstattex##latexopt:{it:latex_options}}
@@ -15,18 +15,36 @@ help for {hi:tabstattex}
 {p 4 4 2}{cmd:tabstattex} permette di esportare in LaTex l'output del comando {cmd:tabstat}. {it:varlist} è la lista delle variabili di cui si vogliono esportare le statistiche.
 Per funzionare correttamente nel preambolo del documento LaTex devono essere specificate le seguenti direttive:
 
+{synopt:{space 4}\usepackage{booktabs}}{p_end}
+{synopt:{space 4}\usepackage{caption}}{p_end}
+{synopt:{space 4}\usepackage{hyperref}}{p_end}
+{synopt:{space 4}\usepackage[utf8]{inputenc}}{p_end}
+{synopt:{space 4}\usepackage{pdfpages}}{p_end}
+{synopt:{space 4}\usepackage{rotating}}{p_end}
 {synopt:{space 4}\usepackage{tabularx}}{p_end}
 {synopt:{space 4}\usepackage{array}}{p_end}
 {synopt:{space 4}\usepackage{gensymb}}{p_end}
-{synopt:{space 4}\usepackage[italian]{babel}}{p_end}
+{synopt:{space 4}\usepackage{multirow}}{p_end}
+{synopt:{space 4}\usepackage{pdflscape}}{p_end}
+{synopt:{space 4}\usepackage{etoolbox}}{p_end}
+{synopt:{space 4}\usepackage{color}}{p_end}
+{synopt:{space 4}\usepackage{colortbl}}{p_end}
+
+e ci devono essere anche queste definizioni:
+
 {synopt:{space 4}\renewcommand{\arraystretch}{1.1}}{p_end}
 {synopt:{space 4}\newcolumntype{Z}{>{\centering\arraybackslash}X}}{p_end}
 
+{synopt:{space 4}%% required for bold rows}{p_end}
+{synopt:{space 4}\newcommand\setrow[1]{\gdef\rowmac{#1}#1\ignorespaces}}{p_end}
+{synopt:{space 4}\newcolumntype{$}{>{\global\let\currentrowstyle\relax}}}{p_end}
+{synopt:{space 4}\newcolumntype{^}{>{\currentrowstyle}}}{p_end}
+{synopt:{space 4}\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}#1\ignorespaces}}{p_end}
 
 
 {marker tabstatopt}{title:tabstat options}
 
-{p 4 8 2}{cmd:by(varname)}: specifica che le statistiche di {it:varlist} devono essere visualizzate condizionando per la variabile specificata in {cmd:by(varname)}
+{p 4 8 2}{cmd:by(varname)}: specifica che le statistiche delle variabili specificate in {it:varlist} devono essere visualizzate condizionando per la variabile specificata in {cmd:by(varname)}
 
 {p 4 8 2}{cmdab:s:tatistics(}{it:statname}{cmd:)}: specifica quali statistiche devono essere visualizzate. Se non si specifica nulla viene calcolata la sola media. Ogni statistica deve essere separata da uno spazio. Le possibili statistiche sono:
 
@@ -75,8 +93,6 @@ visualizza le statistiche specificate nell'opzione {cmd:statistics({it:statname}
 {marker latexopt}{title:latex options}
 
 {p 4 8 2}{cmd:texfile(filename)}: specifica il file .tex (ed eventuale percorso) in cui salvare il codice della tabella. Questa opzione è obbligatoria.
-
-{p 4 8 2}{cmd:replace}: specifica di sovrascrivere il file indicato in {cmd:texfile(filename)}.
 
 {p 4 8 2}{cmd:caption(string)}: specifica il testo da inserire nell'opzione \caption{} del pacchetto table di LaTex. Di default è vuoto.
 

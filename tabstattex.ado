@@ -1,11 +1,14 @@
 capture program drop tabstattex
 program define tabstattex
 
+*! version 0.0.9  TomaHawk  17jul2017
+**                undocumented option vardisp(none)
+
 *! version 0.0.8  TomaHawk  27nov2017
 version 14
 
 syntax varlist [if] [in] [, by(name) Statistics(str asis) Columns(string) format(str asis) NOTotal Missing  ///
-                            texfile(str) replace caption(str) label(str) intc1(str) intc2(str) note(str) widthtable(string) ///
+                            texfile(str) caption(str) label(str) intc1(str) intc2(str) note(str) widthtable(string) ///
                             landscape fontsize(string) vardisp(string) position(str)  ///
                             s1(string) s2(string) s3(string) s4(string) s5(string) s6(string) s7(string) s8(string) s9(string) s10(string)    ///
                             dfs1(string) dfs2(string) dfs3(string) dfs4(string) dfs5(string) dfs6(string) dfs7(string) dfs8(string) dfs9(string) dfs10(string)    ///
@@ -43,7 +46,8 @@ if "`by'" != "" {
   local n_catvar = r(r)
 }
 if "`vardisp'" == "" local vardisp = "varlabel"
-
+**vardisp(varlabel|varname|none)
+**none solo per by(specificato)
 
 qui tabstat `varlist' `if' `in', `by' save s(`statistics') c(`columns') /*`nototal'*/ `missing'
 **return list
@@ -73,20 +77,16 @@ if "`by'" != "" {
 }
 
 
-if "`replace'" != "" capture erase "`texfile'"
-
-
 if "`by'"=="" local def_cols = "l*{`ncols'}{Z}"
-else local def_cols = "ll*{`ncols'}{Z}"
-**local table_ncols = 1 /* intestazione righe */ + `n_judg'
-**local nrows_valid =  `cnt'
+else {
+  if "`vardisp'"=="none" local def_cols = "l*{`ncols'}{Z}"
+  else local def_cols = "ll*{`ncols'}{Z}"
+}
 
-
-set linesize 255
+**capture erase "`texfile'"
 if "`texfile'" != "" {
   qui file open texfile using "`texfile'", write replace
 }
-
 
 
 file write texfile "\begin{center}" _n
@@ -182,8 +182,10 @@ if "`by'"!="" {
 
 
   else { /* "`columns'" == "statistics"  */
-    if "`intc2'"=="" local intc2 = "Variabili"
-    local int_cols = "`int_cols' & `intc2' "
+    if "`vardisp'"!="none" {
+      if "`intc2'"=="" local intc2 = "Variabili"
+      local int_cols = "`int_cols' & `intc2' "
+    }
     local j=1
     foreach i in `cols_int' {
       if "`s1'" == "" {
@@ -319,10 +321,21 @@ else {
     foreach k of local val_catvar {
       local label_catvar : label (`byvar') `k'
       forvalues r =1(1)`nrows' {
-        if "`vardisp'" == "variables" local introw : word `r' of `varlist'
-        else local introw : variable label `: word `r' of `varlist''
-        if `r'==1 local rowi = "`label_catvar' & `introw'"
-        else local rowi = " & `introw' "
+
+        if "`vardisp'"!= "none" {
+          if "`vardisp'" == "variables" local introw : word `r' of `varlist'
+          else local introw : variable label `: word `r' of `varlist''
+          if `r'==1 local rowi = "`label_catvar' & `introw'"
+          else local rowi = " & `introw' "
+        }
+
+        else if "`vardisp'"== "none"{
+          if `r'==1 local rowi = "`label_catvar'"
+          else local rowi = " & "
+        }
+
+
+
         forvalues c = 1(1)`ncols' {
           if "`dfs1'" != "" local cell_ij : display `dfs`c'' Stat`j'[`r',`c']
           else  local cell_ij : display %12.2gc Stat`j'[`r',`c']
@@ -332,13 +345,22 @@ else {
       }
     local j `++j'
     }
+
     ** add totals
     if "`nototal'" == "" {
       forvalues r =1(1)`nrows' {
-        if "`vardisp'" == "variables" local introw : word `r' of `varlist'
-        else local introw : variable label `: word `r' of `varlist''
-        if `r'==1 local rowi = "Totale & `introw'"
-        else local rowi = " & `introw' "
+        if "`vardisp'"!= "none" {
+          if "`vardisp'" == "variables" local introw : word `r' of `varlist'
+          else local introw : variable label `: word `r' of `varlist''
+          if `r'==1 local rowi = "Totale & `introw'"
+          else local rowi = " & `introw' "
+        }
+
+        else if "`vardisp'"== "none"{
+          if `r'==1 local rowi = "Totale "
+          else local rowi = " & "
+        }
+
         forvalues c = 1(1)`ncols' {
           matrix StatTotal_stat = StatTotal'
           if "`dfs1'" != "" local cell_ij : display `dfs`c'' StatTotal_stat[`r',`c']
