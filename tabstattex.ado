@@ -40,6 +40,12 @@ forvalues i=1(1)10 {
 if "`widthtable'" == "" local widthtable = "\textwidth"
 
 if "`by'" != "" {
+  capture which fre
+  if _rc==111 {
+   di "fre not installed.... installing..."
+   ssc inst fre, replace
+   exit
+  }
   local byvar = "`by'"
   local by = "by(`by')"
   qui fre `byvar'
@@ -77,10 +83,16 @@ if "`by'" != "" {
 }
 
 
-if "`by'"=="" local def_cols = "l*{`ncols'}{Z}"
+if "`by'"=="" {
+  local def_cols = "l*{`ncols'}{Z}"
+  local table_ncols = 1 + `ncols'
+}
 else {
   if "`vardisp'"=="none" local def_cols = "l*{`ncols'}{Z}"
-  else local def_cols = "ll*{`ncols'}{Z}"
+  else {
+    local def_cols = "ll*{`ncols'}{Z}"
+    local table_ncols = 2 + `ncols'
+  }
 }
 
 **capture erase "`texfile'"
