@@ -162,17 +162,17 @@ La sintassi del formato è la medesima di Stata per i formati numerici. A tal pr
 
 {title:Examples}
 
-{p 4 8 2}{cmd:. tabstattex price weight mpg rep78, stat(n mean cv q) col(stat) texfile(ex1.tex) replace dfs1(%9.0f) dfs2(%9.2f) dfs3(%9.2f) dfs4(%9.0f) dfs5(%9.0f) dfs6(%9.0f)}{p_end}
+{p 4 8 2}{cmd:. tabstattex price weight mpg rep78, stat(n mean cv q) col(stat) texfile(ex1.tex) dfs1(%9.0f) dfs2(%9.2f) dfs3(%9.2f) dfs4(%9.0f) dfs5(%9.0f) dfs6(%9.0f)}{p_end}
 
-{p 4 8 2}{cmd:. tabstattex price weight mpg rep78, stat(n mean cv q) col(stat) col(v) texfile(ex1.tex) replace dfs1(%9.0f) dfs2(%9.2f) dfs3(%9.2f) dfs4(%9.0f) dfs5(%9.0f) dfs6(%9.0f)}{p_end}
+{p 4 8 2}{cmd:. tabstattex price weight mpg rep78, stat(n mean cv q) col(stat) col(v) texfile(ex1.tex) dfs1(%9.0f) dfs2(%9.2f) dfs3(%9.2f) dfs4(%9.0f) dfs5(%9.0f) dfs6(%9.0f)}{p_end}
 
-{p 4 8 2}{cmd:. tabstattex price weight mpg rep78, stat(n mean cv q) col(v) texfile(ex2bis.tex) replace ///}{p_end}
+{p 4 8 2}{cmd:. tabstattex price weight mpg rep78, stat(n mean cv q) col(v) texfile(ex2bis.tex) ///}{p_end}
 {p 6 8 2}{cmd:s1(Nonmissing observations) s2(Mean) s3(Coefficient of variation) s4(25th percentile) s5(50th percentile) s6(75th percentile) ///}{p_end}
 {p 6 8 2}{cmd:dfs1(%9.0f) dfs2(%9.2f) dfs3(%9.2f) dfs4(%9.0f) dfs5(%9.0f) dfs6(%9.0f) }{p_end}
 
-{p 4 8 2}{cmd:. tabstattex price weight mpg rep78, by(foreign) stat(mean sd min max) texfile(ex3.tex) replace dfs1(%9.2f) dfs2(%9.2f) dfs3(%9.0f) dfs4(%9.0f)}{p_end}
+{p 4 8 2}{cmd:. tabstattex price weight mpg rep78, by(foreign) stat(mean sd min max) texfile(ex3.tex) dfs1(%9.2f) dfs2(%9.2f) dfs3(%9.0f) dfs4(%9.0f)}{p_end}
 
-{p 4 8 2}{cmd:. tabstattex price weight mpg rep78, by(foreign) stat(mean sd min max) c(s) texfile(ex3bis.tex) replace dfs1(%9.2f) dfs2(%9.2f) dfs3(%9.0f) dfs4(%9.0f)}{p_end}
+{p 4 8 2}{cmd:. tabstattex price weight mpg rep78, by(foreign) stat(mean sd min max) c(s) texfile(ex3bis.tex) dfs1(%9.2f) dfs2(%9.2f) dfs3(%9.0f) dfs4(%9.0f)}{p_end}
 
 
 
