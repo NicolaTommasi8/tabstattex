@@ -9,7 +9,7 @@ version 14
 
 syntax varlist [if] [in] [, by(name) Statistics(str asis) Columns(string) format(str asis) NOTotal Missing  ///
                             texfile(str) caption(str) label(str) intc1(str) intc2(str) note(str) widthtable(string) ///
-                            landscape fontsize(string) vardisp(string) position(str)  ///
+                            landscape fontsize(string) vardisp(string) position(str) wintr1(string) ///
                             s1(string) s2(string) s3(string) s4(string) s5(string) s6(string) s7(string) s8(string) s9(string) s10(string)    ///
                             dfs1(string) dfs2(string) dfs3(string) dfs4(string) dfs5(string) dfs6(string) dfs7(string) dfs8(string) dfs9(string) dfs10(string)    ///
                                              /* options for latex */ ]
@@ -83,14 +83,17 @@ if "`by'" != "" {
 }
 
 
+if "`wintr1'" =="" local l = "l"
+else local l = "p{`wintr1'}"
+
 if "`by'"=="" {
-  local def_cols = "l*{`ncols'}{Z}"
+  local def_cols = "`l'*{`ncols'}{Z}"
   local table_ncols = 1 + `ncols'
 }
 else {
-  if "`vardisp'"=="none" local def_cols = "l*{`ncols'}{Z}"
+  if "`vardisp'"=="none" local def_cols = "`l'*{`ncols'}{Z}"
   else {
-    local def_cols = "ll*{`ncols'}{Z}"
+    local def_cols = "`l'l*{`ncols'}{Z}"
     local table_ncols = 2 + `ncols'
   }
 }

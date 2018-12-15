@@ -107,6 +107,8 @@ nella prima colonna ci sono i valori della variabile {opt varname} e di default 
 {p 4 8 2}{cmd:intc2(string)}: specifica il testo da inserire come descrizione della seconda colonna della tabella e si applica solo nel caso in cui sia specificata l'opzione {cmd:by(varname)}.
 Se l'opzione {cmd:columns()} è {cmd:variables} il default è {cmd:intc2(Statistiche)}, se l'opzione {cmd:columns()} è {cmd:statistics} il default è {cmd:intc2(Variabili)}.
 
+{p 4 8 2}{cmd:wintr1(number)}}: specifica la larghezza della prima colonna della tabella. DA TESTARE
+
 {p 4 8 2}{cmd:note(string)}: specifica il testo da inserire come nota a piè di tabella. Di default è vuoto.
 
 {p 4 8 2}{cmd:widthtable(string)}: specifica la larghezza della tabella da esprimersi con un valore numerico ed una unità di misura (ad esempio {cmd:widthtable(5cm)}). Di default vale \textwidth e significa che la larghezza della tabella equivale ai margini della pagina.
